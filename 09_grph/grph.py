@@ -88,14 +88,14 @@ def find_kmers(seq: str, k: int) -> List[str]:
 
 def test_find_kmers() -> None:
     """Test find_kmers."""
-    
-    assert find_kmers('', 1) == []
-    assert find_kmers('ACTG', 1) == ['A', 'C', 'T', 'G']
-    assert find_kmers('ACTG', 2) == ['AC', 'CT', 'TG']
-    assert find_kmers('ACTG', 3) == ['ACT', 'CTG']
-    assert find_kmers('ACTG', 4) == ['ACTG']
-    assert find_kmers('ACTG', 5) == []
-    
+
+    assert find_kmers("", 1) == []
+    assert find_kmers("ACTG", 1) == ["A", "C", "T", "G"]
+    assert find_kmers("ACTG", 2) == ["AC", "CT", "TG"]
+    assert find_kmers("ACTG", 3) == ["ACT", "CTG"]
+    assert find_kmers("ACTG", 4) == ["ACTG"]
+    assert find_kmers("ACTG", 5) == []
+
 
 # --------------------------------------------------
 if __name__ == "__main__":
