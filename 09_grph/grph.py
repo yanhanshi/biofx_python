@@ -6,7 +6,9 @@ Purpose: Overlap Graphs
 """
 
 import argparse
+from collections import defaultdict
 import logging
+from pprint import pformat
 from typing import List, NamedTuple, TextIO
 
 from Bio import SeqIO
@@ -74,16 +76,25 @@ def main() -> None:
         level=logging.DEBUG if args.debug else logging.CRITICAL,
     )
 
-    logging.debug('input file = "%s"', args.file.name)
-
+    # Create dictionaries with list as default values.
+    start, end = defaultdict(list), defaultdict(list)
+    # Iterate the FASTA records.
     for rec in SeqIO.parse(args.file, "fasta"):
-        print(rec.id, rec.seq)
+        # Not sure if it is necessary to coerce the Seq object to string.
+        # Experiments are needed later.
+        if kmers := find_kmers(str(rec.seq), args.k):
+            start[kmers[0]].append(rec.id)
+            end[kmers[-1]].append(rec.id)
+
+    logging.debug(f'STARTS\n{pformat(start)}')
+    logging.debug(f'ENDS\n{pformat(end)}')
 
 
 def find_kmers(seq: str, k: int) -> List[str]:
     """Find k-mers in string."""
 
-    return []
+    # If len(seq) - k + 1 <= 0, the list of the range function will return [].
+    return [seq[n : n + k] for n in range(len(seq) - k + 1)]
 
 
 def test_find_kmers() -> None:
