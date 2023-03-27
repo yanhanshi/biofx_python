@@ -7,7 +7,10 @@ Purpose: Overlap Graphs
 
 import argparse
 from collections import defaultdict
+from itertools import product
+from iteration_utilities import starfilter
 import logging
+import operator as op
 from pprint import pformat
 from typing import List, NamedTuple, TextIO
 
@@ -88,6 +91,10 @@ def main() -> None:
 
     logging.debug(f'STARTS\n{pformat(start)}')
     logging.debug(f'ENDS\n{pformat(end)}')
+
+    for kmer in set(start).intersection(set(end)):
+        for pair in starfilter(op.ne, product(end[kmer], start[kmer])):
+            print(*pair)
 
 
 def find_kmers(seq: str, k: int) -> List[str]:
